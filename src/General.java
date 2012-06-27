@@ -6,11 +6,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 import java.util.LinkedList;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author pin3da
@@ -27,6 +22,7 @@ public class General {
     public General(Mongo m, String name){
         this.m = m;
         this.db = m.getDB(name);
+        //this.db.dropDatabase();
         this.cuentas = db.getCollection("cuentas");
         this.ingre = db.getCollection("ingresos");
         this.gasto = db.getCollection("gasto");
@@ -43,9 +39,9 @@ public class General {
     }
     
     public boolean addCuenta(String id, String name){
-        BasicDBObject c = new BasicDBObject("id", id).append("name", name);
+        BasicDBObject c = new BasicDBObject("id", id);
         if (cuentas.findOne(c) == null){
-            cuentas.insert(c);
+            cuentas.insert(c.append("name", name));
             return true;
         }
         return false;
@@ -54,5 +50,13 @@ public class General {
     public void modifyCuenta(String id, String name){
         BasicDBObject update = new BasicDBObject("id", id).append("name", name);
         cuentas.update(new BasicDBObject("id",id), update);
+    }
+    
+    public boolean deleteCuenta(String id){
+        BasicDBObject c = new BasicDBObject("id", id);
+        if (cuentas.findOne(c) == null)
+            return false;
+        cuentas.dropIndex(c);
+        return true;
     }
 }
