@@ -11,10 +11,10 @@ package Application;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-public class Test extends BasicDBObject implements DBObject{
+public class PCount extends BasicDBObject implements DBObject{
     private BasicDBObject data;
     
-    public Test(BasicDBObject hola){
+    public PCount(BasicDBObject hola){
         data = hola;
     }
 

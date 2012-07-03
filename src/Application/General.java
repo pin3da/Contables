@@ -40,21 +40,25 @@ public class General {
         return results;
     }
     
-    public boolean addCuenta(String id, String name){
-        BasicDBObject c = new BasicDBObject("id", id);
+    public boolean addCount(Count cuenta){
+        BasicDBObject c = new BasicDBObject("id", cuenta.getId());
         if (cuentas.findOne(c) == null){
-            cuentas.insert(c.append("name", name));
+            cuentas.insert(cuenta.getDocument());
             return true;
         }
         return false;
     }
     
-    public void modifyCuenta(String id, String name){
+    public void modifyCount(String id, String name){
         BasicDBObject update = new BasicDBObject("id", id).append("name", name);
         cuentas.update(new BasicDBObject("id",id), update);
     }
+    public void modifyCount(String id, String name, String desc){
+        BasicDBObject update = new BasicDBObject("id", id).append("name", name).append("desc", desc);
+        cuentas.update(new BasicDBObject("id",id), update);
+    }
     
-    public boolean deleteCuenta(String id){
+    public boolean deleteCount(String id){
         BasicDBObject c = new BasicDBObject("id", id);
         if (cuentas.findOne(c) == null)
             return false;
