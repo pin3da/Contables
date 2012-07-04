@@ -65,4 +65,76 @@ public class General {
         cuentas.dropIndex(c);
         return true;
     }
+    
+    public void addTransaction(Transaction t){
+        if(t.acCat.equals("ingresos")){
+            ingre.insert(t.getDocument());
+        }
+        
+        if(t.acCat.equals("gastos")){
+            gasto.insert(t.getDocument());
+        }
+        
+        if(t.acCat.equals("activos")){
+            activos.insert(t.getDocument());
+        }
+        
+        if(t.acCat.equals("paypa")){
+            paypa.insert(t.getDocument());
+        } 
+    }
+    
+    public LinkedList<BasicDBObject> getTransactions(String acId, String acCat){
+        LinkedList<BasicDBObject> transactions= new LinkedList<BasicDBObject>();
+        DBCursor cur;
+        BasicDBObject aux;
+        
+        if(acCat.equals("ingresos")){
+            cur=ingre.find();
+            while(cur.hasNext()){
+              aux=(BasicDBObject)cur.next();
+              if(aux.get("account").equals(acId)){
+                  transactions.add(aux);
+              }
+            }
+                        
+        }
+        
+        if(acCat.equals("gastos")){
+            cur=gasto.find();
+            while(cur.hasNext()){
+              aux=(BasicDBObject)cur.next();
+              if(aux.get("account").equals(acId)){
+                  transactions.add(aux);
+              }
+            }
+                        
+        }
+        
+        if(acCat.equals("activos")){
+            cur=activos.find();
+            while(cur.hasNext()){
+              aux=(BasicDBObject)cur.next();
+              if(aux.get("account").equals(acId)){
+                  transactions.add(aux);
+              }
+            }
+                        
+        }
+        
+        if(acCat.equals("paypa")){
+            cur=paypa.find();
+            while(cur.hasNext()){
+              aux=(BasicDBObject)cur.next();
+              if(aux.get("account").equals(acId)){
+                  transactions.add(aux);
+              }
+            }
+                        
+        }
+        
+        return transactions;
+        
+        
+    }
 }
