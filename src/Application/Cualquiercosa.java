@@ -35,7 +35,7 @@ public class Cualquiercosa {
         Mongo mio = new Mongo();
         General g = new General(mio, "contables");
         
-        Window test=new Window();
-        test.setVisible(true);
+        
+        
     }
 }

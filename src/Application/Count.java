@@ -10,22 +10,18 @@ import com.mongodb.BasicDBObject;
 public class Count {
     protected String id;
     protected String name;
-    private String descprition;
+    private String cat;
     
     public Count(){}
-    public Count(String id, String name){
+        
+    public Count(String id, String name, String cat){
         this.id = id;
         this.name = name;
-    }
-    
-    public Count(String id, String name, String description){
-        this.id = id;
-        this.name = name;
-        this.descprition = description;
+        this.cat = cat;
     }
     
     public BasicDBObject getDocument(){
-        return new BasicDBObject("id", this.getId()).append("name", this.getName()).append("desc",this.getDescprition());
+        return new BasicDBObject("id", this.getId()).append("name", this.getName()).append("category",this.getCat());
     }
 
     public String getId() {
@@ -47,14 +43,14 @@ public class Count {
     /**
      * @return the descprition
      */
-    public String getDescprition() {
-        return descprition;
+    public String getCat() {
+        return cat;
     }
 
     /**
      * @param descprition the descprition to set
      */
-    public void setDescprition(String descprition) {
-        this.descprition = descprition;
+    public void setDescprition(String cat) {
+        this.cat = cat;
     }
 }
