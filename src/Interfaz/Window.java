@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.UnknownHostException;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
@@ -19,10 +21,10 @@ import javax.swing.event.ListDataListener;
  *
  * @author Carlos
  */
-public final class Window extends JFrame{
+public class Window extends JFrame{
     Color color = Color.lightGray;
     General jesus;
-    JComboBox accountBox;
+    JComboBox accountBox=new JComboBox();
     AddCount addCount;
     //LinkedList<BasicDBObject> accountList;
     
@@ -40,8 +42,11 @@ public final class Window extends JFrame{
         addCount = new AddCount(this,jesus);
         
         
+        
+        
+        
         adminSwitch();
-        loadList();
+        
     }
     
     private void adminSwitch(){
@@ -91,11 +96,15 @@ public final class Window extends JFrame{
         amountField.setBounds(20, 115, 330, 20);
         amountField.setBackground(Color.white);
         
-        accountBox= new JComboBox();
+        
+        loadList();
         accountBox.setBounds(20, 75, 330, 20);
         accountBox.setBackground(Color.white);
-        accountBox.setEditable(true);
-        accountBox.getEditor().getEditorComponent().setBackground(Color.white);
+        accountBox.setEditable(false);
+        
+        
+        
+        
         
         JButton addTButton=new JButton("Añadir Transacción");
         addTButton.setBounds(5, 135, 145, 40);
@@ -138,16 +147,18 @@ public final class Window extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 addCount.setVisible(true);
             }
-        }); 
+        });
         
+       
     }
     
     public void loadList(){
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(); 
         for (BasicDBObject mio : jesus.listCuentas() ) {
-           modelo.addElement((BasicDBObject)new PCount(mio));
+           modelo.addElement((new PCount(mio)).toString());
         }
+        
         accountBox.setModel(modelo);
-    }
-    
+        }
+       
 }

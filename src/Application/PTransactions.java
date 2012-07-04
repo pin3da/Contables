@@ -3,24 +3,23 @@
  * and open the template in the editor.
  */
 package Application;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 /**
  *
  * @author Carlos
  */
-import com.mongodb.BasicDBObject;
-
-
-public class PCount{
+public class PTransactions {
     private BasicDBObject data;
     
-    public PCount(BasicDBObject hola){
+    public PTransactions(BasicDBObject hola){
         data = hola;
     }
 
     @Override
     public String toString() {
-        return  data.get("id") + " - " + data.get("name");
+        return  data.get("amount") + " - " + data.get("account");
         
     }
     
