@@ -53,7 +53,7 @@ public class LibroMayor extends JFrame {
         title=new JLabel();
         view=new JScrollPane(son);
         view.setBounds(5, 30, 490, 400);
-        title.setBounds(200, 10, 100, 20);
+        title.setBounds(180, 10, 350, 20);
         this.add(title);
         this.add(view);
           

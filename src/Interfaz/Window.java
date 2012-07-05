@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.DefaultTableModel;
@@ -115,7 +116,7 @@ public class Window extends JFrame{
         JButton addTButton=new JButton("Añadir Transacción");
         addTButton.setBounds(5, 135, 145, 40);
         
-        JButton addAButton=new JButton("Añadir Cuenta");
+        JButton addAButton=new JButton("Editar Cuentas");
         addAButton.setBounds(140, 135, 115, 40);
         
         JButton libMButton=new JButton("Libro Mayor");
@@ -171,11 +172,16 @@ public class Window extends JFrame{
                 if(aux.charAt(0)=='4') cat="ingresos";
                 if(aux.charAt(0)=='5') cat="gastos";
                 Transaction t= new Transaction(Double.parseDouble(amountField.getText()), d, aux, cat, dateField.getText());
-                jesus.addTransaction(t);
-                dateField.setText("dd/mm/aaaa");
-                amountField.setText("");
-                accountBox.setSelectedIndex(0);
-                JOptionPane.showMessageDialog(null, "Transaccion añadida con exito");
+                if(Pattern.matches("\\d\\d/\\d\\d/\\d\\d\\d",dateField.getText())){
+                    jesus.addTransaction(t);
+                    dateField.setText("dd/mm/aaaa");
+                    amountField.setText("");
+                    accountBox.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(null, "Transaccion añadida con exito");
+                }else{
+                    JOptionPane.showMessageDialog(null, "El formato de fecha es incorrecto, deben ser valores numéricos");
+                    dateField.setText("dd/mm/aaaa");
+                }
             }
         });
         
@@ -203,7 +209,9 @@ public class Window extends JFrame{
     public void loadList(){
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(); 
         for (BasicDBObject mio : jesus.listCuentas() ) {
-           modelo.addElement((new PCount(mio)).toString());
+            //if(!mio.get("id").equals("0"))
+            System.out.println(mio.get("id"));
+                modelo.addElement((new PCount(mio)).toString());
         }
         
         accountBox.setModel(modelo);

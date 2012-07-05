@@ -49,13 +49,19 @@ public class General {
         return false;
     }
     
-    public void modifyCount(String id, String name){
+    public boolean modifyCount(String id, String name){
         BasicDBObject update = new BasicDBObject("id", id).append("name", name);
+        if(cuentas.find(update) == null)
+               return false;
         cuentas.update(new BasicDBObject("id",id), update);
+        return true;
     }
-    public void modifyCount(String id, String name, String desc){
+    public boolean modifyCount(String id, String name, String desc){
         BasicDBObject update = new BasicDBObject("id", id).append("name", name).append("desc", desc);
+        if(cuentas.find(update) == null)
+               return false;
         cuentas.update(new BasicDBObject("id",id), update);
+        return true;
     }
     
     public boolean deleteCount(String id){
