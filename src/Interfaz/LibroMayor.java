@@ -113,6 +113,8 @@ public class LibroMayor extends JFrame {
     }
     
     public void loadAccounts(){
+        Count tmp = new Count("0","Resumen de Ingresos y Gastos","blop");
+        jesus.addCount(tmp);
         accounts=jesus.listCuentas();
     }
     
@@ -125,21 +127,20 @@ public class LibroMayor extends JFrame {
         loadTransactions();
         this.title.setText(new PCount(this.accounts.get(a)).toString());
         DefaultTableModel tmodel= new DefaultTableModel();
-        tmodel.addColumn("Deber");
+        tmodel.addColumn("Debe");
         tmodel.addColumn("Haber");
         int j=0;
         int k=0;
         double sum1=0;
         double sum2=0;
+
         for(int i=0; i<this.transactions.size();i++){
 
             if((Boolean)this.transactions.get(i).get("debe")){
                 sum1=sum1+(Double)this.transactions.get(i).get("amount");
                 if(tmodel.getRowCount()<=k) tmodel.addRow(new String[2]);
                 tmodel.setValueAt(new PTransactions(this.transactions.get(i)).toString(), k, 0);
-                k++;
-                
-
+                k++;              
             }
             else{
                 if(tmodel.getRowCount()<=j) tmodel.addRow(new String[2]);
@@ -149,6 +150,8 @@ public class LibroMayor extends JFrame {
             }
 
         }
+        tmodel.addRow(new String[2]);
+        tmodel.addRow(new String[2]);
         tmodel.addRow(new String[2]);
         tmodel.addRow(new String[2]);
         tmodel.addRow(new String[2]);
@@ -163,8 +166,14 @@ public class LibroMayor extends JFrame {
         if(((String)this.accounts.get(a).get("category")).equals("activos")){
             tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
             tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
-            tmodel.setValueAt("Totales:", index+2, 0);
-            tmodel.setValueAt(String.valueOf(sum1-sum2), index+3, 0);
+            if(sum1>sum2){
+                tmodel.setValueAt(String.valueOf(sum1-sum2), index+2, 0);
+            }
+            else{
+                tmodel.setValueAt(String.valueOf(sum2-sum1), index+2, 1);
+            }
+            tmodel.setValueAt("Totales:", index+3, 0);
+            tmodel.setValueAt(String.valueOf(sum1-sum2), index+4, 0);
         }
         if( ((String)this.accounts.get(a).get("category")).equals("gastos")){
             tmodel.setValueAt(String.valueOf(sum1-sum2), index+1, 0);
@@ -175,8 +184,14 @@ public class LibroMayor extends JFrame {
         if(((String)this.accounts.get(a).get("category")).equals("paypa")){
             tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
             tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
-            tmodel.setValueAt("Totales:", index+2, 1);
-            tmodel.setValueAt(String.valueOf(sum2-sum1), index+3, 0);
+            if(sum1>sum2){
+                tmodel.setValueAt(String.valueOf(sum1-sum2), index+2, 0);
+            }
+            else{
+                tmodel.setValueAt(String.valueOf(sum2-sum1), index+2, 1);
+            }
+            tmodel.setValueAt("Totales:", index+3, 1);
+            tmodel.setValueAt(String.valueOf(sum2-sum1), index+4, 0);
         }
         if( ((String)this.accounts.get(a).get("category")).equals("ingresos")){
             tmodel.setValueAt(String.valueOf(sum2-sum1), index+1, 0);
@@ -184,8 +199,19 @@ public class LibroMayor extends JFrame {
             tmodel.setValueAt("Totales:", index+2, 1);
             tmodel.setValueAt(String.valueOf(0.0), index +3, 1);
         }
+         if( ((String)this.accounts.get(a).get("category")).equals("blop")){
+            tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
+            tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
+            if(sum1>sum2){
+                tmodel.setValueAt(String.valueOf(sum1-sum2), index+2, 0);
+            }
+            else{
+                tmodel.setValueAt(String.valueOf(sum2-sum1), index+2, 1);
+            }
+            tmodel.setValueAt("Totales:", index+3, 0);
+            tmodel.setValueAt(String.valueOf(0.0), index +4, 1);
+        }
         
         this.son.setModel(tmodel);              
-    
 }
 }

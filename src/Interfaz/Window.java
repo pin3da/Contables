@@ -65,7 +65,7 @@ public class Window extends JFrame{
         info.setFont(new Font("Serif", Font.BOLD, 18));
         info.setForeground(Color.black);
         
-        JLabel foot = new JLabel("Brought to you by Manuel Pineda and Carlos Gonzáles.");
+        JLabel foot = new JLabel("Brought to you by Manuel, Carlos, Alejandro and Hugo.");
         foot.setBounds(this.getWidth()/2 - 180, this.getHeight()-55 , 350 , 20);
         
         JLabel dateLab= new JLabel("Seleccione la cuenta:");

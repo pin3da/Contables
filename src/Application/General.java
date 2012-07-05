@@ -94,51 +94,64 @@ public class General {
         LinkedList<BasicDBObject> transactions= new LinkedList<BasicDBObject>();
         DBCursor cur;
         BasicDBObject aux;
-        
-        if(acCat.equals("ingresos")){
+
+        if(acId.equals("0")){
             cur=ingre.find();
             while(cur.hasNext()){
               aux=(BasicDBObject)cur.next();
-              if(aux.get("account").equals(acId)){
-                  transactions.add(aux);
-              }
+              transactions.add(aux);
             }
-                        
-        }
-        
-        if(acCat.equals("gastos")){
             cur=gasto.find();
             while(cur.hasNext()){
               aux=(BasicDBObject)cur.next();
-              if(aux.get("account").equals(acId)){
-                  transactions.add(aux);
-              }
+              transactions.add(aux);
             }
-                        
         }
-        
-        if(acCat.equals("activos")){
-            cur=activos.find();
-            while(cur.hasNext()){
-              aux=(BasicDBObject)cur.next();
-              if(aux.get("account").equals(acId)){
-                  transactions.add(aux);
-              }
+        else{
+            if(acCat.equals("ingresos")){
+                cur=ingre.find();
+                while(cur.hasNext()){
+                  aux=(BasicDBObject)cur.next();
+                  if(aux.get("account").equals(acId)){
+                      transactions.add(aux);
+                  }
+                }
+
             }
-                        
-        }
-        
-        if(acCat.equals("paypa")){
-            cur=paypa.find();
-            while(cur.hasNext()){
-              aux=(BasicDBObject)cur.next();
-              if(aux.get("account").equals(acId)){
-                  transactions.add(aux);
-              }
+
+            if(acCat.equals("gastos")){
+                cur=gasto.find();
+                while(cur.hasNext()){
+                  aux=(BasicDBObject)cur.next();
+                  if(aux.get("account").equals(acId)){
+                      transactions.add(aux);
+                  }
+                }
+
             }
-                        
+
+            if(acCat.equals("activos")){
+                cur=activos.find();
+                while(cur.hasNext()){
+                  aux=(BasicDBObject)cur.next();
+                  if(aux.get("account").equals(acId)){
+                      transactions.add(aux);
+                  }
+                }
+
+            }
+
+            if(acCat.equals("paypa")){
+                cur=paypa.find();
+                while(cur.hasNext()){
+                  aux=(BasicDBObject)cur.next();
+                  if(aux.get("account").equals(acId)){
+                      transactions.add(aux);
+                  }
+                }
+
+            }
         }
-        
         return transactions;
         
         
