@@ -106,7 +106,7 @@ public class LibroMayor extends JFrame {
                     if(!next.isEnabled()) next.setEnabled(true);
                     a=a-1;
                     updateTA();
-                    if(a-1<=0) previous.setEnabled(false);
+                    if(a-1<0) previous.setEnabled(false);
                 }
             }
         });
