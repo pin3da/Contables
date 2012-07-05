@@ -210,7 +210,7 @@ public class Window extends JFrame{
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(); 
         for (BasicDBObject mio : jesus.listCuentas() ) {
             //if(!mio.get("id").equals("0"))
-            System.out.println(mio.get("id"));
+            //System.out.println(mio.get("id"));
                 modelo.addElement((new PCount(mio)).toString());
         }
         
