@@ -19,7 +19,7 @@ public class PTransactions {
 
     @Override
     public String toString() {
-        return  data.get("amount") + " - " + data.get("account");
+        return  data.get("date") + " - " + data.get("amount");
         
     }
     

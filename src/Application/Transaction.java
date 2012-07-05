@@ -11,13 +11,15 @@ public class Transaction{
     String acId;
     String acCat;
     double amount;
+    String date;
     boolean d; //true if augment by "debe", false otherwise
     
-    public Transaction( double amount, boolean d, String acId, String acCat ){
+    public Transaction( double amount, boolean d, String acId, String acCat, String date ){
         this.acId=acId;
         this.acCat=acCat;
         this.amount=amount;
         this.d=d;
+        this.date=date;
         
     }
     
@@ -29,6 +31,10 @@ public class Transaction{
         return this.acCat;
     }
     
+    public String getDate(){
+        return this.date;
+    }
+    
     public double getAmount(){
         return this.amount;
     }
@@ -38,7 +44,7 @@ public class Transaction{
     }
     
     public BasicDBObject getDocument(){
-        return new BasicDBObject("account", this.getAcId()).append("amount", this.getAmount()).append("debe",this.getD()).append("category", this.getAcCat());
+        return new BasicDBObject("account", this.getAcId()).append("amount", this.getAmount()).append("debe",this.getD()).append("category", this.getAcCat()).append("date", this.getDate());
     }
     
     
