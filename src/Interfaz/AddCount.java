@@ -31,7 +31,7 @@ public final class AddCount extends JFrame{
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.getContentPane().setBackground(Color.lightGray);
-        
+        this.window=window;
         loadFields();
     }
     
@@ -84,8 +84,12 @@ public final class AddCount extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO Validar cuentas antes de añadir
+                Count mio=new Count();
+                if(idf.getText().charAt(0)=='1') mio = new Count(idf.getText(), namef.getText() , "activos");
+                if(idf.getText().charAt(0)=='2' || idf.getText().charAt(0)=='3') mio = new Count(idf.getText(), namef.getText() , "paypa");
+                if(idf.getText().charAt(0)=='4') mio = new Count(idf.getText(), namef.getText() , "ingresos");
+                if(idf.getText().charAt(0)=='5') mio = new Count(idf.getText(), namef.getText() , "gastos");
                 
-                Count mio = new Count(namef.getText(),idf.getText() , descf.getText());
                 if(jesus.addCount(mio))
                     JOptionPane.showMessageDialog(null, "Cuenta añadida exitosamente","Cuenta añadida exitosamente",JOptionPane.INFORMATION_MESSAGE);
                 else
@@ -112,7 +116,7 @@ public final class AddCount extends JFrame{
                 // A mi parecer esto es acto de un "fantasma informatico" porque me sale un error muy extraño
                 //luego les explico. Traten de descomentar la siguiente línea, si funciona, odio mi computador.
                 //Sino, odio java.
-                //window.loadList();
+                window.loadList();
                 namef.setText("");
                 idf.setText("");
                 descf.setText("");
