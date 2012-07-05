@@ -162,25 +162,28 @@ public class Window extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String aux=(String)accountBox.getSelectedItem();
                 String cat="" ;
-                
-                aux=aux.split(" ")[0];
-                System.out.println("l" + aux + "l");
-                boolean d=false;
-                if(oweBut.isSelected()) d=true;
-                if(aux.charAt(0)=='1') cat="activos";
-                if(aux.charAt(0)=='2' || aux.charAt(0)=='3') cat="paypa";
-                if(aux.charAt(0)=='4') cat="ingresos";
-                if(aux.charAt(0)=='5') cat="gastos";
-                Transaction t= new Transaction(Double.parseDouble(amountField.getText()), d, aux, cat, dateField.getText());
-                if(Pattern.matches("\\d\\d/\\d\\d/\\d\\d\\d",dateField.getText())){
-                    jesus.addTransaction(t);
-                    dateField.setText("dd/mm/aaaa");
-                    amountField.setText("");
-                    accountBox.setSelectedIndex(0);
-                    JOptionPane.showMessageDialog(null, "Transaccion añadida con exito");
-                }else{
-                    JOptionPane.showMessageDialog(null, "El formato de fecha es incorrecto, deben ser valores numéricos");
-                    dateField.setText("dd/mm/aaaa");
+                if(amountField.getText().equals(""))
+                      JOptionPane.showMessageDialog(null, "Ingrese un valor");
+                else{
+                    aux=aux.split(" ")[0];
+                    //System.out.println("l" + aux + "l");
+                    boolean d=false;
+                    if(oweBut.isSelected()) d=true;
+                    if(aux.charAt(0)=='1') cat="activos";
+                    if(aux.charAt(0)=='2' || aux.charAt(0)=='3') cat="paypa";
+                    if(aux.charAt(0)=='4') cat="ingresos";
+                    if(aux.charAt(0)=='5') cat="gastos";
+                    Transaction t= new Transaction(Double.parseDouble(amountField.getText()), d, aux, cat, dateField.getText());
+                    if(Pattern.matches("\\d\\d/\\d\\d/\\d\\d\\d\\d",dateField.getText())){
+                        jesus.addTransaction(t);
+                        dateField.setText("dd/mm/aaaa");
+                        amountField.setText("");
+                        accountBox.setSelectedIndex(0);
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El formato de fecha es incorrecto, deben ser valores numéricos");
+                        dateField.setText("dd/mm/aaaa");
+                    }
                 }
             }
         });
@@ -209,7 +212,7 @@ public class Window extends JFrame{
     public void loadList(){
         DefaultComboBoxModel modelo = new DefaultComboBoxModel(); 
         for (BasicDBObject mio : jesus.listCuentas() ) {
-            //if(!mio.get("id").equals("0"))
+            if(!mio.get("id").equals("0"))
             //System.out.println(mio.get("id"));
                 modelo.addElement((new PCount(mio)).toString());
         }
