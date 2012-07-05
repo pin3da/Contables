@@ -27,7 +27,7 @@ public class General {
         //this.db.dropDatabase();
         this.cuentas = db.getCollection("cuentas");
         this.ingre = db.getCollection("ingresos");
-        this.gasto = db.getCollection("gasto");
+        this.gasto = db.getCollection("gastos");
         this.activos = db.getCollection("activos");
         this.paypa = db.getCollection("paypa");
     }

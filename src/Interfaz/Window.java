@@ -5,6 +5,8 @@
 package Interfaz;
 import Application.General;
 import Application.PCount;
+import Application.PTransactions;
+import Application.Transaction;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Mongo;
 import java.awt.Color;
@@ -16,6 +18,7 @@ import java.awt.event.ItemListener;
 import java.net.UnknownHostException;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,8 +27,9 @@ import javax.swing.event.ListDataListener;
 public class Window extends JFrame{
     Color color = Color.lightGray;
     General jesus;
-    JComboBox accountBox=new JComboBox();
+    JComboBox accountBox;
     AddCount addCount;
+    LibroMayor libro;
     //LinkedList<BasicDBObject> accountList;
     
     public Window () throws UnknownHostException{
@@ -40,7 +44,7 @@ public class Window extends JFrame{
         
         jesus = new General(m, "contables");
         addCount = new AddCount(this,jesus);
-        
+        libro=new LibroMayor(this, jesus);
         
         
         
@@ -81,22 +85,24 @@ public class Window extends JFrame{
         JRadioButton haveBut=new JRadioButton();
         haveBut.setBounds(this.getWidth()-45, 115, 20, 20);
         
-        JRadioButton oweBut=new JRadioButton();
+        final JRadioButton oweBut=new JRadioButton();
         oweBut.setBounds(this.getWidth()-110, 115, 20, 20);
         
         ButtonGroup group = new ButtonGroup();
         group.add(oweBut);
         group.add(haveBut);
         
-        JTextField dateField=new JTextField("dd/mm/aaaa");
+        oweBut.setSelected(true);
+        
+        final JTextField dateField=new JTextField("dd/mm/aaaa");
         dateField.setBounds(this.getWidth()-148, 75, 135, 20);
         dateField.setBackground(Color.white);
         
-        JTextField amountField=new JTextField();
+        final JTextField amountField=new JTextField();
         amountField.setBounds(20, 115, 330, 20);
         amountField.setBackground(Color.white);
         
-        
+        accountBox=new JComboBox();
         loadList();
         accountBox.setBounds(20, 75, 330, 20);
         accountBox.setBackground(Color.white);
@@ -148,6 +154,44 @@ public class Window extends JFrame{
                 addCount.setVisible(true);
             }
         });
+        
+        addTButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String aux=(String)accountBox.getSelectedItem();
+                String cat="" ;
+                
+                aux=aux.split(" ")[0];
+                System.out.println("l" + aux + "l");
+                boolean d=false;
+                if(oweBut.isSelected()) d=true;
+                if(aux.charAt(0)=='1') cat="activos";
+                if(aux.charAt(0)=='2' || aux.charAt(0)=='3') cat="paypa";
+                if(aux.charAt(0)=='4') cat="ingresos";
+                if(aux.charAt(0)=='5') cat="gastos";
+                Transaction t= new Transaction(Double.parseDouble(amountField.getText()), d, aux, cat, dateField.getText());
+                jesus.addTransaction(t);
+                dateField.setText("dd/mm/aaaa");
+                amountField.setText("");
+                accountBox.setSelectedIndex(0);
+                JOptionPane.showMessageDialog(null, "Transaccion añadida con exito");
+            }
+        });
+        
+        libMButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                libro.a=0;
+                libro.updateTA();
+                libro.next.setEnabled(true);
+                libro.previous.setEnabled(false);
+                libro.setVisible(true);
+                
+            }
+        });
+        
         
        
     }
