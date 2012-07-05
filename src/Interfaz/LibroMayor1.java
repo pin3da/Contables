@@ -27,6 +27,9 @@ import javax.swing.table.DefaultTableModel;
 public class LibroMayor extends JFrame {
     LinkedList<BasicDBObject> accounts;
     LinkedList<BasicDBObject> transactions;
+    LinkedList<Double> ingresos;
+    LinkedList<Double> gastos;
+    LinkedList<Boolean> pins;
     Window window;
     General jesus;
     JScrollPane view;
@@ -46,16 +49,19 @@ public class LibroMayor extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.getContentPane().setBackground(Color.lightGray);
-        
-        adminSwitch();
-        
+        gastos=new LinkedList<Double>();
+        ingresos=new LinkedList<Double>();
+        pins=new LinkedList<Boolean>();
         son=new JTable();
         title=new JLabel();
         view=new JScrollPane(son);
         view.setBounds(5, 30, 490, 400);
-        title.setBounds(200, 10, 100, 20);
+        title.setBounds(180, 10, 200, 20);
         this.add(title);
         this.add(view);
+        adminSwitch();
+        
+        
           
         
     }
@@ -87,12 +93,18 @@ public class LibroMayor extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                if(a+1<=accounts.size()){
+                a=a+1;
+                if(a<accounts.size()){
                     if(!previous.isEnabled()) previous.setEnabled(true);
-                    a=a+1;
+                    
                     updateTA();
-                    if(a+1>=accounts.size()) next.setEnabled(false);
+                    
+                }
+                if(a==accounts.size()){
+                    
+                    next.setEnabled(false);
+                    if(!previous.isEnabled()) previous.setEnabled(true);
+                    updateRGI();
                 }
                 
             }
@@ -114,6 +126,11 @@ public class LibroMayor extends JFrame {
     
     public void loadAccounts(){
         accounts=jesus.listCuentas();
+        if(pins.size()<accounts.size()){
+            for(int i=0; i<=(accounts.size()-pins.size());i++){
+                pins.add(false);                
+            }
+        }
     }
     
     public void loadTransactions(){
@@ -171,6 +188,10 @@ public class LibroMayor extends JFrame {
             tmodel.setValueAt(String.valueOf(sum1-sum2), index+1, 1);
             tmodel.setValueAt("Totales:", index+2, 0);
             tmodel.setValueAt(String.valueOf(0.0), index +3, 0);
+            if(!pins.get(a)){
+                gastos.add(sum1-sum2);
+                pins.set(a, true);
+            }
         }
         if(((String)this.accounts.get(a).get("category")).equals("paypa")){
             tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
@@ -183,9 +204,51 @@ public class LibroMayor extends JFrame {
             tmodel.setValueAt(String.valueOf(sum2-sum1), index+1, 1);
             tmodel.setValueAt("Totales:", index+2, 1);
             tmodel.setValueAt(String.valueOf(0.0), index +3, 1);
+            
+            if(!pins.get(a)){
+                ingresos.add(sum2-sum1);
+                pins.set(a, true);
+            }
         }
         
         this.son.setModel(tmodel);              
     
 }
+    
+    public void updateRGI(){
+        this.title.setText("Resumen Gastos Ingresos");
+        DefaultTableModel tmodel= new DefaultTableModel();
+        tmodel.addColumn("Deber");
+        tmodel.addColumn("Haber");
+        int i=0, j=0, index=0;
+        double sum1=0, sum2=0;
+        
+        for(i=0;i<ingresos.size();i++){
+            tmodel.addRow(new String[2]);
+            tmodel.setValueAt(String.valueOf(ingresos.get(i)), i, 0);
+            sum1=sum1+ingresos.get(i);
+        }
+        for(j=0;j<gastos.size();j++){
+            if(tmodel.getRowCount()<=j) tmodel.addRow(new String[2]);
+            tmodel.setValueAt(gastos.get(j), j, 1);
+            sum2=sum2+gastos.get(j);
+        }
+        if(i>j) index=i;
+        else index=j;
+        
+        tmodel.addRow(new String[2]);
+        tmodel.addRow(new String[2]);
+        tmodel.addRow(new String[2]);
+        tmodel.addRow(new String[2]);
+        tmodel.setValueAt("Cierre", index, 0);
+        tmodel.setValueAt("Cierre", index, 1);
+        tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
+        tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
+        tmodel.setValueAt("Totales:", index+2, 0);
+        tmodel.setValueAt(String.valueOf(sum1-sum2), index+3, 0);
+        
+        this.son.setModel(tmodel);
+        
+        
+    }
 }

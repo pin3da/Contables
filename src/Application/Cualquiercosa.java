@@ -34,7 +34,7 @@ public class Cualquiercosa {
         
         Mongo mio = new Mongo();
         General g = new General(mio, "contables");
-        g.db.dropDatabase();
+        //g.db.dropDatabase();
         Window w= new Window();
         w.setVisible(true);
         
