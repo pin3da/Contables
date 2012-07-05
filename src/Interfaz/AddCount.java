@@ -21,8 +21,8 @@ public final class AddCount extends JFrame{
     Color color = Color.lightGray;
     General jesus;
     Window window;
-    
-    public AddCount(Window window,General jesus){
+    LibroMayor libro;
+    public AddCount(Window window,General jesus, LibroMayor libro){
         this.jesus = jesus;
         this.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         this.setSize(500, 400);
@@ -32,6 +32,7 @@ public final class AddCount extends JFrame{
         this.setResizable(false);
         this.getContentPane().setBackground(Color.lightGray);
         this.window=window;
+        this.libro=libro;
         loadFields();
     }
     
@@ -85,13 +86,17 @@ public final class AddCount extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 //TODO Validar cuentas antes de añadir
                 Count mio=new Count();
+                
                 if(idf.getText().charAt(0)=='1') mio = new Count(idf.getText(), namef.getText() , "activos");
                 if(idf.getText().charAt(0)=='2' || idf.getText().charAt(0)=='3') mio = new Count(idf.getText(), namef.getText() , "paypa");
                 if(idf.getText().charAt(0)=='4') mio = new Count(idf.getText(), namef.getText() , "ingresos");
                 if(idf.getText().charAt(0)=='5') mio = new Count(idf.getText(), namef.getText() , "gastos");
                 
-                if(jesus.addCount(mio))
+                if(jesus.addCount(mio)){
                     JOptionPane.showMessageDialog(null, "Cuenta añadida exitosamente","Cuenta añadida exitosamente",JOptionPane.INFORMATION_MESSAGE);
+                    window.loadList();
+                    libro.loadAccounts();
+                }
                 else
                     JOptionPane.showMessageDialog(null, "La cuenta no pudo ser añadida","La cuenta no pudo ser añadida",JOptionPane.ERROR_MESSAGE);
                 
@@ -116,7 +121,7 @@ public final class AddCount extends JFrame{
                 // A mi parecer esto es acto de un "fantasma informatico" porque me sale un error muy extraño
                 //luego les explico. Traten de descomentar la siguiente línea, si funciona, odio mi computador.
                 //Sino, odio java.
-                window.loadList();
+                
                 namef.setText("");
                 idf.setText("");
                 descf.setText("");
