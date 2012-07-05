@@ -158,17 +158,33 @@ public class LibroMayor extends JFrame {
         else index=k;
         tmodel.setValueAt("Cierre", index, 0);
         tmodel.setValueAt("Cierre", index, 1);
-        tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
-        tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
         
-        if(((String)this.accounts.get(a).get("category")).equals("activos") || ((String)this.accounts.get(a).get("category")).equals("gastos")){
+        
+        if(((String)this.accounts.get(a).get("category")).equals("activos")){
+            tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
+            tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
             tmodel.setValueAt("Totales:", index+2, 0);
             tmodel.setValueAt(String.valueOf(sum1-sum2), index+3, 0);
         }
-        else{
-            tmodel.setValueAt("Totales:", index+2, 1);
-            tmodel.setValueAt(String.valueOf(sum2-sum1), index+3, 1);            
+        if( ((String)this.accounts.get(a).get("category")).equals("gastos")){
+            tmodel.setValueAt(String.valueOf(sum1-sum2), index+1, 0);
+            tmodel.setValueAt(String.valueOf(sum1-sum2), index+1, 1);
+            tmodel.setValueAt("Totales:", index+2, 0);
+            tmodel.setValueAt(String.valueOf(0.0), index +3, 0);
         }
+        if(((String)this.accounts.get(a).get("category")).equals("paypa")){
+            tmodel.setValueAt(String.valueOf(sum1), index+1, 0);
+            tmodel.setValueAt(String.valueOf(sum2), index+1, 1);
+            tmodel.setValueAt("Totales:", index+2, 1);
+            tmodel.setValueAt(String.valueOf(sum2-sum1), index+3, 0);
+        }
+        if( ((String)this.accounts.get(a).get("category")).equals("ingresos")){
+            tmodel.setValueAt(String.valueOf(sum2-sum1), index+1, 0);
+            tmodel.setValueAt(String.valueOf(sum2-sum1), index+1, 1);
+            tmodel.setValueAt("Totales:", index+2, 1);
+            tmodel.setValueAt(String.valueOf(0.0), index +3, 1);
+        }
+        
         this.son.setModel(tmodel);              
     
 }
