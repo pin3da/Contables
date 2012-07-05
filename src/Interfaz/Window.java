@@ -43,9 +43,9 @@ public class Window extends JFrame{
         Mongo m= new Mongo();
         
         jesus = new General(m, "contables");
-        addCount = new AddCount(this,jesus);
-        libro=new LibroMayor(this, jesus);
         
+        libro=new LibroMayor(this, jesus);
+        addCount = new AddCount(this,jesus, libro);
         
         
         
@@ -183,11 +183,15 @@ public class Window extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                libro.a=0;
-                libro.updateTA();
-                libro.next.setEnabled(true);
-                libro.previous.setEnabled(false);
-                libro.setVisible(true);
+                if(libro.accounts.size()>0){
+                    libro.a=0;
+                    libro.updateTA();
+                    if(libro.a+1<libro.accounts.size())libro.next.setEnabled(true);
+                    else libro.next.setEnabled(false);
+                    libro.previous.setEnabled(false);
+                    libro.setVisible(true);
+                }
+                else JOptionPane.showMessageDialog(null, "No se han añadido cuentas");
                 
             }
         });
