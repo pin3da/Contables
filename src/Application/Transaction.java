@@ -10,11 +10,11 @@ public class Transaction{
     
     String acId;
     String acCat;
-    double amount;
+    long amount;
     String date;
     boolean d; //true if augment by "debe", false otherwise
     
-    public Transaction( double amount, boolean d, String acId, String acCat, String date ){
+    public Transaction( long amount, boolean d, String acId, String acCat, String date ){
         this.acId=acId;
         this.acCat=acCat;
         this.amount=amount;
@@ -35,7 +35,7 @@ public class Transaction{
         return this.date;
     }
     
-    public double getAmount(){
+    public long getAmount(){
         return this.amount;
     }
     

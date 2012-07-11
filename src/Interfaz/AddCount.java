@@ -59,14 +59,17 @@ public final class AddCount extends JFrame{
         descf.setBackground(Color.white);
         
         JButton save = new JButton("Guardar Cuenta");
-        save.setBounds(15, this.getHeight()-100, 150, 50);
+        save.setBounds(15, this.getHeight()-100, 120, 50);
+        
+        JButton edit = new JButton("Editar Cuenta");
+        edit.setBounds(130, this.getHeight()-100, 120, 50);
         
         
         JButton cancel = new JButton("Cancelar / limpiar");
-        cancel.setBounds(158, this.getHeight()-100, 150, 50);
+        cancel.setBounds(247, this.getHeight()-100, 120, 50);
         
         JButton done = new JButton("Hecho");
-        done.setBounds(300, this.getHeight()-100, 150, 50);
+        done.setBounds(365, this.getHeight()-100, 120, 50);
         
         this.add(namel);
         this.add(namef);
@@ -77,6 +80,7 @@ public final class AddCount extends JFrame{
         this.add(save);
         this.add(cancel);
         this.add(done);
+        this.add(edit);
         
         //Listeners Here
         
@@ -86,19 +90,58 @@ public final class AddCount extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 //TODO Validar cuentas antes de añadir
                 Count mio=new Count();
-                
-                if(idf.getText().charAt(0)=='1') mio = new Count(idf.getText(), namef.getText() , "activos");
-                if(idf.getText().charAt(0)=='2' || idf.getText().charAt(0)=='3') mio = new Count(idf.getText(), namef.getText() , "paypa");
-                if(idf.getText().charAt(0)=='4') mio = new Count(idf.getText(), namef.getText() , "ingresos");
-                if(idf.getText().charAt(0)=='5') mio = new Count(idf.getText(), namef.getText() , "gastos");
-                
-                if(jesus.addCount(mio)){
-                    JOptionPane.showMessageDialog(null, "Cuenta añadida exitosamente","Cuenta añadida exitosamente",JOptionPane.INFORMATION_MESSAGE);
-                    window.loadList();
-                    libro.loadAccounts();
+                String id = idf.getText();
+                String name = namef.getText();
+                if(id.equals("") || name.equals("")){
+                     JOptionPane.showMessageDialog(null, "La cuenta no pudo ser añadida \n"
+                                + "Los valores no pueden ser nulos","La cuenta no pudo ser añadida",JOptionPane.ERROR_MESSAGE);
+                }else{
+                    if(id.charAt(0)=='1') mio = new Count(id, name , "activos");
+                    if(id.charAt(0)=='2' || id.charAt(0)=='3') mio = new Count(id, name , "paypa");
+                    if(id.charAt(0)=='4') mio = new Count(id, name , "ingresos");
+                    if(id.charAt(0)=='5') mio = new Count(id, name , "gastos"); 
+
+                    if(jesus.addCount(mio)){
+                        JOptionPane.showMessageDialog(null, "Cuenta añadida exitosamente","Añadida",JOptionPane.INFORMATION_MESSAGE);
+                        window.loadList();
+                        libro.loadAccounts();
+                        
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "La cuenta no pudo ser añadida \n"
+                                + "Cuenta existente, o valores nulos","La cuenta no pudo ser añadida",JOptionPane.ERROR_MESSAGE);
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "La cuenta no pudo ser añadida","La cuenta no pudo ser añadida",JOptionPane.ERROR_MESSAGE);
+
+            }
+        }); 
+        
+        
+        edit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO Validar cuentas antes de añadir
+                Count mio=new Count();
+                String id = idf.getText();
+                String name = namef.getText();
+                if(id.equals("") || name.equals("")){
+                     JOptionPane.showMessageDialog(null, "La cuenta no pudo ser añadida \n"
+                                + "Los valores no pueden ser nulos","La cuenta no pudo ser añadida",JOptionPane.ERROR_MESSAGE);
+                }else{
+                    if(idf.getText().charAt(0)=='1') mio = new Count(idf.getText(), namef.getText() , "activos");
+                    if(idf.getText().charAt(0)=='2' || idf.getText().charAt(0)=='3') mio = new Count(idf.getText(), namef.getText() , "paypa");
+                    if(idf.getText().charAt(0)=='4') mio = new Count(idf.getText(), namef.getText() , "ingresos");
+                    if(idf.getText().charAt(0)=='5') mio = new Count(idf.getText(), namef.getText() , "gastos");
+
+                    if(jesus.modifyCount(mio.getId(), mio.getName(),mio.getCat())){
+                        JOptionPane.showMessageDialog(null, "Cuenta modificada exitosamente","Done",JOptionPane.INFORMATION_MESSAGE);
+                        window.loadList();
+                        libro.loadAccounts();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "La cuenta no pudo ser modificada \n"
+                                + "Some error here","Paila",JOptionPane.ERROR_MESSAGE);
+                }
                 
             }
         }); 

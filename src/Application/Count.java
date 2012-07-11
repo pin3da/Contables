@@ -50,7 +50,7 @@ public class Count {
     /**
      * @param descprition the descprition to set
      */
-    public void setDescprition(String cat) {
+    public void setCat(String cat) {
         this.cat = cat;
     }
 }

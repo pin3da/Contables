@@ -32,9 +32,15 @@ public class Cualquiercosa {
             java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
+
         Mongo mio = new Mongo();
         General g = new General(mio, "contables");
+        
+
+        
+
         //g.db.dropDatabase();
+        
         Window w= new Window();
         w.setVisible(true);
         
