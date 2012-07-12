@@ -206,7 +206,8 @@ public class General {
         for(int i=0;i<ac.size();i++){
             trans=getTransactions((String)ac.get(i).get("id"), (String)ac.get(i).get("category"));
             for(int j=0; j<trans.size();j++){
-                sum=sum+(Long)trans.get(j).get("amount");
+                if((Boolean)trans.get(j).get("debe")) sum=sum-(Long)trans.get(j).get("amount");
+                else sum=sum+(Long)trans.get(j).get("amount");
             }
             answer.add(sum);
         }
@@ -221,7 +222,8 @@ public class General {
         for(int i=0;i<ac.size();i++){
             trans=getTransactions((String)ac.get(i).get("id"), (String)ac.get(i).get("category"));
             for(int j=0; j<trans.size();j++){
-                sum=sum+(Long)trans.get(j).get("amount");
+                if((Boolean)trans.get(j).get("debe")) sum=sum-(Long)trans.get(j).get("amount");
+                else sum=sum+(Long)trans.get(j).get("amount");
             }
             answer.add(sum);
         }
@@ -237,7 +239,8 @@ public class General {
         for(int i=0;i<ac.size();i++){
             trans=getTransactions((String)ac.get(i).get("id"), (String)ac.get(i).get("category"));
             for(int j=0; j<trans.size();j++){
-                sum=sum+(Long)trans.get(j).get("amount");
+                if((Boolean)trans.get(j).get("debe")) sum=sum+(Long)trans.get(j).get("amount");
+                else sum=sum-(Long)trans.get(j).get("amount");
             }
             answer.add(sum);
         }
